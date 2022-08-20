@@ -8,7 +8,7 @@ create table empresa (
 create sequence filial_codigo_seq;
 
 create table filial (
-	codigo integer,
+	codigo integer default nextval('filial_codigo_seq'),
 	nome varchar(120) not null,
 	tipo varchar(50) not null,
 	rua text not null,
@@ -23,7 +23,7 @@ create table filial (
 create sequence departamento_codigo_seq;
 
 create table departamento (
-	codigo integer,
+	codigo integer default nextval('departamento_codigo_seq'),
 	nome varchar(80) not null,
 	email varchar(256) not null,
 	codigoFilial integer not null,
@@ -48,7 +48,7 @@ create table funcionario (
 create sequence categoria_codigo_seq;
 
 create table categoria (
-	codigo integer,
+	codigo integer default nextval('categoria_codigo_seq'),
 	nome varchar(80) not null,
 	
 	constraint pk_categoria primary key(codigo)
@@ -57,7 +57,7 @@ create table categoria (
 create sequence produto_codigo_seq;
 
 create table produto (
-	codigo integer ,
+	codigo integer default nextval('produto_codigo_seq'),
 	nome varchar(150) not null,
 	quantidade integer not null,
 	valor float not null,
