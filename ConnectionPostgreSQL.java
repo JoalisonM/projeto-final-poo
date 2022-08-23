@@ -19,7 +19,7 @@ public class ConnectionPostgreSQL {
     public Connection getConection() throws SQLException {
         //Não é mais necessário
         //Class.forName(this.driver); 
-        
+
         return DriverManager.getConnection(url, user, password);
     }
 

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class CategoriaDAO {
     public void adicionarCategoria(Categoria categoria) {
@@ -15,13 +16,14 @@ public class CategoriaDAO {
         
         try {
             conexao = postgres.getConection();
-            stmt = conexao.prepareStatement("INSERT INTO categoria(codigo, nome) VALUES(?, ?)");
-            stmt.setInt(1, categoria.getCodigo());
-            stmt.setString(2, categoria.getNome());
+            stmt = conexao.prepareStatement("INSERT INTO categoria(nome) VALUES(?)");
+            stmt.setString(1, categoria.getNome());
             
             stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
         } catch(SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar: " + e);
         } finally {
             postgres.close(stmt, conexao);
         }
@@ -41,7 +43,10 @@ public class CategoriaDAO {
             rs = stmt.executeQuery();
             
             while (rs.next()) {
-                Categoria categoria = new Categoria(rs.getInt("codigo"), rs.getString("nome"));
+                Categoria categoria = new Categoria();
+                categoria.setCodigo(rs.getInt("codigo"));
+                categoria.setNome(rs.getString("nome"));
+               
                 listaRetorno.add(categoria);
             }
         } catch(SQLException e) {
@@ -66,7 +71,7 @@ public class CategoriaDAO {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                Categoria categoria = new Categoria(rs.getInt("codigo"), rs.getString("nome"));
+                Categoria categoria = new Categoria(rs.getInt("codigo"),rs.getString("nome"));
                 return categoria;
             }
         } catch (SQLException e) {
@@ -77,7 +82,7 @@ public class CategoriaDAO {
         return null;
     }
     
-    public void updateCategoria(Categoria categoria) {
+    public void atualizarCategoria(Categoria categoria) {
         ConnectionPostgreSQL postgres = new ConnectionPostgreSQL();
         PreparedStatement stmt = null;
         Connection conexao = null;
@@ -89,8 +94,10 @@ public class CategoriaDAO {
             stmt.setInt(2, categoria.getCodigo());
 
             stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar: " + e);
         } finally {
             postgres.close(stmt, conexao);
         }
@@ -102,13 +109,15 @@ public class CategoriaDAO {
         Connection conexao = null;
         
         try {
-        conexao = postgres.getConection();
+            conexao = postgres.getConection();
             stmt = conexao.prepareStatement("DELETE FROM categoria WHERE codigo=?");
             stmt.setInt(1, codigo);
 
             stmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Deletado com sucesso!");
         } catch(SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao deletar: " + e);
         } finally {
             postgres.close(null, stmt, conexao);}
     }
