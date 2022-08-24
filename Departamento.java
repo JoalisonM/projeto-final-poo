@@ -4,7 +4,7 @@ public class Departamento {
     private String nome, email;
     private int codigo, codigoFilial;
     
-    public Departamento() {};
+    public Departamento() {}
 
     public Departamento(String nome, String email, int codigo, int codigoFilial) {
         this.nome = nome;

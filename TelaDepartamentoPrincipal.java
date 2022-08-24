@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package com.mycompany.gerenciamentoempresa;
 
-/**
- *
- * @author joalison
- */
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class TelaDepartamentoPrincipal extends javax.swing.JInternalFrame {
 
     /**
@@ -27,7 +22,7 @@ public class TelaDepartamentoPrincipal extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTabelaDepartamentos = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -38,7 +33,7 @@ public class TelaDepartamentoPrincipal extends javax.swing.JInternalFrame {
 
         setClosable(true);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaDepartamentos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -54,9 +49,14 @@ public class TelaDepartamentoPrincipal extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTabelaDepartamentos);
 
         jButton2.setText("Atualizar tabela");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Sair");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -66,10 +66,25 @@ public class TelaDepartamentoPrincipal extends javax.swing.JInternalFrame {
         });
 
         jButton4.setText("Excluir");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Editar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Cadastrar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -136,6 +151,66 @@ public class TelaDepartamentoPrincipal extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        TelaCadastroDepartamento telaCadDepartamento = new TelaCadastroDepartamento();
+        
+        TelaPrincipal.jDesktopPane1.add(telaCadDepartamento);
+        telaCadDepartamento.setVisible(true);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int linhaSelecionada = -1;
+        linhaSelecionada = jTabelaDepartamentos.getSelectedRow();
+        
+        if(linhaSelecionada >= 0) {
+            int codigoDepartamento = (int) jTabelaDepartamentos.getValueAt(linhaSelecionada, 0);
+            int codigoFilial = (int) jTabelaDepartamentos.getValueAt(linhaSelecionada, 1);
+            String nomeDepartamento = (String) jTabelaDepartamentos.getValueAt(linhaSelecionada, 2);
+            String emailDepartamento = (String) jTabelaDepartamentos.getValueAt(linhaSelecionada, 3);
+            
+            TelaCadastroDepartamento telaCadDepartamento = new TelaCadastroDepartamento(
+                    true, 
+                    new Departamento(nomeDepartamento, emailDepartamento, codigoDepartamento, codigoFilial)
+            );
+            TelaPrincipal.jDesktopPane1.add(telaCadDepartamento);
+            telaCadDepartamento.setVisible(true);
+            jButton2ActionPerformed(null);
+        } else {
+            JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        DefaultTableModel tabelaModelo = (DefaultTableModel) jTabelaDepartamentos.getModel();
+        tabelaModelo.setNumRows(0);
+        
+        DepartamentoDAO departamentoBanco = new DepartamentoDAO();
+        
+        for(Departamento departamento: departamentoBanco.listarDepartamentos()) {
+            tabelaModelo.addRow(new Object[]{
+                departamento.getCodigo(),
+                departamento.getCodigoFilial(),
+                departamento.getNome(),
+                departamento.getEmail()
+            });
+                    
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int linhaSelecionada = -1;
+        linhaSelecionada = jTabelaDepartamentos.getSelectedRow();
+        
+        if (linhaSelecionada >= 0) {
+            int codigoDepartamento = (int) jTabelaDepartamentos.getValueAt(linhaSelecionada, 0);
+            DepartamentoDAO departamentoBanco = new DepartamentoDAO();
+            departamentoBanco.deletarDepartamento(codigoDepartamento);
+            jButton2ActionPerformed(null);
+        } else {
+            JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
@@ -146,6 +221,6 @@ public class TelaDepartamentoPrincipal extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTabelaDepartamentos;
     // End of variables declaration//GEN-END:variables
 }

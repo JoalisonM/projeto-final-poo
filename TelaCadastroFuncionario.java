@@ -1,19 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
-
 package com.mycompany.gerenciamentoempresa;
 
-/**
- *
- * @author joalison
- */
 public class TelaCadastroFuncionario extends javax.swing.JInternalFrame {
+    
+    private boolean editando = false;
+    private Funcionario funcionario = new Funcionario();
 
     /** Creates new form TelaCadastroFuncionario */
     public TelaCadastroFuncionario() {
         initComponents();
+    }
+    
+    public TelaCadastroFuncionario(boolean editando, Funcionario funcionario) {
+        initComponents();
+        this.editando = editando;
+        this.funcionario = funcionario;
+        
+        jTextCPF.setText(funcionario.getCPF());
+        if(editando) {
+            jTextCPF.setEditable(false);
+        }
+        
+        jTextNome.setText(funcionario.getNome());
+        jTextTelefone.setText(funcionario.getTelefone());
+        jTextEmail.setText(funcionario.getEmail());
+        jTextIdade.setText(String.valueOf(funcionario.getIdade()));
+        jTextFuncao.setText(funcionario.getFuncao());
+        jTextCodigoDep.setText(String.valueOf(funcionario.getCodigoDepartamento()));
     }
 
     /** This method is called from within the constructor to
@@ -27,26 +39,34 @@ public class TelaCadastroFuncionario extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextCPF = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextNome = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jTextTelefone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        jTextEmail = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        jTextIdade = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        jTextFuncao = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        jTextCodigoDep = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+
+        setClosable(true);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel1.setText("Funcionário");
 
         jLabel2.setText("CPF");
+
+        jTextCPF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextCPFActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Nome:");
 
@@ -61,6 +81,11 @@ public class TelaCadastroFuncionario extends javax.swing.JInternalFrame {
         jLabel8.setText("Código do departamento:");
 
         jButton1.setText("Salvar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Fechar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -89,13 +114,13 @@ public class TelaCadastroFuncionario extends javax.swing.JInternalFrame {
                         .addComponent(jLabel3)
                         .addComponent(jLabel2)
                         .addComponent(jLabel1)
-                        .addComponent(jTextField1)
-                        .addComponent(jTextField2)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
-                        .addComponent(jTextField4)
-                        .addComponent(jTextField5)
-                        .addComponent(jTextField6)
-                        .addComponent(jTextField7)))
+                        .addComponent(jTextCPF)
+                        .addComponent(jTextNome)
+                        .addComponent(jTextTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                        .addComponent(jTextEmail)
+                        .addComponent(jTextIdade)
+                        .addComponent(jTextFuncao)
+                        .addComponent(jTextCodigoDep)))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -106,31 +131,31 @@ public class TelaCadastroFuncionario extends javax.swing.JInternalFrame {
                 .addGap(32, 32, 32)
                 .addComponent(jLabel2)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel3)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel4)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel5)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel6)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextIdade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel8)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextCodigoDep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -145,6 +170,36 @@ public class TelaCadastroFuncionario extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FuncionarioDAO funcionarioBanco = new FuncionarioDAO();
+        
+        funcionario.setNome(jTextNome.getText());
+        funcionario.setTelefone(jTextTelefone.getText());
+        funcionario.setEmail(jTextEmail.getText());
+        funcionario.setIdade(Integer.parseInt(jTextIdade.getText()));
+        funcionario.setFuncao(jTextFuncao.getText());
+        funcionario.setCodigoDepartamento(Integer.parseInt(jTextCodigoDep.getText()));
+        
+        if(!editando) {
+            funcionario.setCPF(jTextCPF.getText());
+            funcionarioBanco.adicionarFuncionario(funcionario);
+        } else {
+            funcionarioBanco.atualizarFuncionario(funcionario);
+        }
+        
+        jTextCPF.setText("");
+        jTextNome.setText("");
+        jTextTelefone.setText("");
+        jTextEmail.setText("");
+        jTextIdade.setText("");
+        jTextFuncao.setText("");
+        jTextCodigoDep.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextCPFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextCPFActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -157,13 +212,13 @@ public class TelaCadastroFuncionario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextCPF;
+    private javax.swing.JTextField jTextCodigoDep;
+    private javax.swing.JTextField jTextEmail;
+    private javax.swing.JTextField jTextFuncao;
+    private javax.swing.JTextField jTextIdade;
+    private javax.swing.JTextField jTextNome;
+    private javax.swing.JTextField jTextTelefone;
     // End of variables declaration//GEN-END:variables
 
 }

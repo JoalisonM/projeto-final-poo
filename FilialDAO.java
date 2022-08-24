@@ -17,13 +17,13 @@ public class FilialDAO {
         try {
             conexao = postgres.getConection();
             stmt = conexao.prepareStatement(
-                    "INSERT INTO filial(nome,tipo,CNPJEmpresa,rua,bairro,cidade) VALUES(?,?,?,?,?,?)");
+                    "INSERT INTO filial(nome,tipo,rua,bairro,cidade,CNPJ_empresa) VALUES(?,?,?,?,?,?)");
             stmt.setString(1, filial.getNome());
             stmt.setString(2, filial.getTipo());
-            stmt.setString(3, filial.getCNPJEmpresa());
-            stmt.setString(4, filial.getRua());
-            stmt.setString(5, filial.getBairro());
-            stmt.setString(6, filial.getCidade());
+            stmt.setString(3, filial.getRua());
+            stmt.setString(4, filial.getBairro());
+            stmt.setString(5, filial.getCidade());
+            stmt.setString(6, filial.getCNPJEmpresa());
 
             stmt.executeUpdate();
 
@@ -50,6 +50,7 @@ public class FilialDAO {
 
             while (rs.next()) {
                 Filial filial = new Filial();
+                filial.setCodigo(rs.getInt("codigo"));
                 filial.setNome(rs.getString("nome"));
                 filial.setTipo(rs.getString("tipo"));
                 filial.setCNPJEmpresa(rs.getString("CNPJ_empresa"));
@@ -101,13 +102,14 @@ public class FilialDAO {
         try {
             conexao = postgres.getConection();
             stmt = conexao.prepareStatement(
-                    "UPDATE filial SET nome=?,CNPJ_empresa=?,tipo=?,rua=?,bairro=?,cidade=? WHERE codigo=?");
+                    "UPDATE filial SET nome=?,tipo=?,rua=?,bairro=?,cidade=?,CNPJ_empresa=? WHERE codigo=?");
             stmt.setString(1, filial.getNome());
-            stmt.setString(1, filial.getCNPJEmpresa());
-            stmt.setString(1, filial.getTipo());
-            stmt.setString(1, filial.getRua());
-            stmt.setString(1, filial.getBairro());
-            stmt.setString(1, filial.getCidade());
+            stmt.setString(2, filial.getTipo());
+            stmt.setString(3, filial.getRua());
+            stmt.setString(4, filial.getBairro());
+            stmt.setString(5, filial.getCidade());
+            stmt.setString(6, filial.getCNPJEmpresa());
+            stmt.setInt(7, filial.getCodigo());
 
             stmt.executeUpdate();
 
@@ -126,7 +128,7 @@ public class FilialDAO {
 
         try {
             conexao = postgres.getConection();
-            stmt = conexao.prepareStatement("DELETE FROM categoria WHERE codigo=?");
+            stmt = conexao.prepareStatement("DELETE FROM filial WHERE codigo=?");
             stmt.setInt(1, codigo);
 
             stmt.executeUpdate();
