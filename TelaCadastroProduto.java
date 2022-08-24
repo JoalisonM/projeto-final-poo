@@ -1,20 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package com.mycompany.gerenciamentoempresa;
 
-/**
- *
- * @author joalison
- */
 public class TelaCadastroProduto extends javax.swing.JInternalFrame {
 
+    private boolean editando = false;
+    private Produto produto = new Produto();
     /**
      * Creates new form TelaCadastroProduto
      */
     public TelaCadastroProduto() {
         initComponents();
+    }
+    
+    public TelaCadastroProduto(boolean editando, Produto produto) {
+        initComponents();
+        
+        this.editando = editando;
+        this.produto = produto;
+        
+        jTextNome.setText(produto.getNome());
+        jTextQtd.setText(String.valueOf(produto.getQuantidade()));
+        jTextValor.setText(String.valueOf(produto.getValor()));
+        jTextDesc.setText(produto.getDescricao());
+        jTextCodCategoria.setText(String.valueOf(produto.getCodigoCategoria()));
+        jTextCodFilial.setText(String.valueOf(produto.getCodigoFilial()));
     }
 
     /**
@@ -28,17 +36,17 @@ public class TelaCadastroProduto extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextNome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextQtd = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        jTextValor = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        jTextDesc = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        jTextCodCategoria = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        jTextCodFilial = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -60,8 +68,18 @@ public class TelaCadastroProduto extends javax.swing.JInternalFrame {
         jLabel7.setText("Código da Filial:");
 
         jButton1.setText("Salvar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Fechar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,12 +100,12 @@ public class TelaCadastroProduto extends javax.swing.JInternalFrame {
                         .addComponent(jLabel3)
                         .addComponent(jLabel2)
                         .addComponent(jLabel1)
-                        .addComponent(jTextField1)
-                        .addComponent(jTextField2)
-                        .addComponent(jTextField3)
-                        .addComponent(jTextField4)
-                        .addComponent(jTextField5)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)))
+                        .addComponent(jTextNome)
+                        .addComponent(jTextQtd)
+                        .addComponent(jTextValor)
+                        .addComponent(jTextDesc)
+                        .addComponent(jTextCodCategoria)
+                        .addComponent(jTextCodFilial, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -98,27 +116,27 @@ public class TelaCadastroProduto extends javax.swing.JInternalFrame {
                 .addGap(32, 32, 32)
                 .addComponent(jLabel2)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel3)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel4)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel5)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextDesc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel6)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextCodCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addGap(12, 12, 12)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextCodFilial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -128,6 +146,34 @@ public class TelaCadastroProduto extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ProdutoDAO produtoBanco = new ProdutoDAO();
+        
+        produto.setNome(jTextNome.getText());
+        produto.setQuantidade(Integer.parseInt(jTextQtd.getText()));
+        produto.setValor(Double.parseDouble(jTextValor.getText()));
+        produto.setDescricao(jTextDesc.getText());
+        produto.setCodigoCategoria(Integer.parseInt(jTextCodCategoria.getText()));
+        produto.setCodigoFilial(Integer.parseInt(jTextCodFilial.getText()));
+        
+        if (!editando) {
+            produtoBanco.adicionarProduto(produto);
+        } else {
+            produtoBanco.atualizarProduto(produto);
+        }
+        
+        jTextNome.setText("");
+        jTextQtd.setText("");
+        jTextValor.setText("");
+        jTextDesc.setText("");
+        jTextCodCategoria.setText("");
+        jTextCodFilial.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -140,11 +186,11 @@ public class TelaCadastroProduto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextCodCategoria;
+    private javax.swing.JTextField jTextCodFilial;
+    private javax.swing.JTextField jTextDesc;
+    private javax.swing.JTextField jTextNome;
+    private javax.swing.JTextField jTextQtd;
+    private javax.swing.JTextField jTextValor;
     // End of variables declaration//GEN-END:variables
 }

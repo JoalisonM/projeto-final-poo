@@ -17,7 +17,7 @@ public class ProdutoDAO {
         
         try {
             conexao = postgres.getConection();
-            stmt = conexao.prepareStatement("INSERT INTO produto(nome,quantidade,valor,descricao,codigo_categoria,codigo_filial) VALUES(?,?,?,?,?,?,?)");
+            stmt = conexao.prepareStatement("INSERT INTO produto(nome,quantidade,valor,descricao,codigo_categoria,codigo_filial) VALUES(?,?,?,?,?,?)");
             stmt.setString(1, produto.getNome());
             stmt.setInt(2,produto.getQuantidade());
             stmt.setDouble(3, produto.getValor());

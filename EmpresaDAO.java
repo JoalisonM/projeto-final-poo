@@ -16,9 +16,9 @@ public class EmpresaDAO {
 
         try {
             conexao = postgres.getConection();
-            stmt = conexao.prepareStatement("INSERT INTO empresa(nome,CNPJ) VALUES(?,?)");
-            stmt.setString(1, empresa.getNome());
-            stmt.setString(2, empresa.getCNPJ());
+            stmt = conexao.prepareStatement("INSERT INTO empresa(CNPJ, nome) VALUES(?,?)");
+            stmt.setString(1, empresa.getCNPJ());
+            stmt.setString(2, empresa.getNome());
 
             stmt.executeUpdate();
 
@@ -40,7 +40,7 @@ public class EmpresaDAO {
 
         try {
             conexao = postgres.getConection();
-            stmt = conexao.prepareStatement("SELECT * FROM empresa ORDER BY codigo");
+            stmt = conexao.prepareStatement("SELECT * FROM empresa ORDER BY CNPJ");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -90,7 +90,7 @@ public class EmpresaDAO {
 
         try {
             conexao = postgres.getConection();
-            stmt = conexao.prepareStatement("UPDATE empresa SET nome=?,CNPJ=? WHERE codigo=?");
+            stmt = conexao.prepareStatement("UPDATE empresa SET nome=? WHERE CNPJ=?");
             stmt.setString(1, empresa.getNome());
             stmt.setString(2, empresa.getCNPJ());
 
@@ -104,15 +104,15 @@ public class EmpresaDAO {
         }
     }
 
-    public void deletarEmpresa(int codigo) {
+    public void deletarEmpresa(String cnpj) {
         ConnectionPostgreSQL postgres = new ConnectionPostgreSQL();
         PreparedStatement stmt = null;
         Connection conexao = null;
 
         try {
             conexao = postgres.getConection();
-            stmt = conexao.prepareStatement("DELETE FROM empresa WHERE codigo=?");
-            stmt.setInt(1, codigo);
+            stmt = conexao.prepareStatement("DELETE FROM empresa WHERE CNPJ=?");
+            stmt.setString(1, cnpj);
 
             stmt.executeUpdate();
 
