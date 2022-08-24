@@ -7,19 +7,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ConnectionPostgreSQL {
-    private String url, user, password, driver;
+    private String url, user, password;
     
     public ConnectionPostgreSQL() {
         this.user = "joalison";
         this.password = "12345";
-        this.driver = "org.postgresql.Driver";
         this.url = "jdbc:postgresql://localhost:5432/postgres";
     }
     
     public Connection getConection() throws SQLException {
-        //Não é mais necessário
-        //Class.forName(this.driver); 
-
         return DriverManager.getConnection(url, user, password);
     }
 
