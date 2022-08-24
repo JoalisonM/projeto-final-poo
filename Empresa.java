@@ -2,7 +2,10 @@ package com.mycompany.gerenciamentoempresa;
 
 public class Empresa {
     private String nome, CNPJ;
-    
+
+    public Empresa() {
+    }
+
     public Empresa(String nome, String CNPJ) {
         this.nome = nome;
         this.CNPJ = CNPJ;
@@ -23,7 +26,7 @@ public class Empresa {
     public void setCNPJ(String CNPJ) {
         this.CNPJ = CNPJ;
     }
-    
+
     @Override
     public String toString() {
         return "Empresa{" + "nome=" + nome + ", CNPJ=" + CNPJ + '}';

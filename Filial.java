@@ -3,7 +3,10 @@ package com.mycompany.gerenciamentoempresa;
 public class Filial {
     private int codigo;
     private String nome, tipo, CNPJEmpresa, rua, bairro, cidade;
-    
+
+    public Filial() {
+    }
+
     public Filial(int codigo, String nome, String tipo, String CNPJEmpresa, String rua, String bairro, String cidade) {
         this.codigo = codigo;
         this.nome = nome;
@@ -69,9 +72,10 @@ public class Filial {
     public void setCidade(String cidade) {
         this.cidade = cidade;
     }
-    
+
     @Override
     public String toString() {
-        return "Filial{" + "codigo=" + codigo + ", nome=" + nome + ", tipo=" + tipo + ", CNPJEmpresa=" + CNPJEmpresa + ", rua=" + rua + ", bairro=" + bairro + ", cidade=" + cidade + '}';
+        return "Filial{" + "codigo=" + codigo + ", nome=" + nome + ", tipo=" + tipo + ", CNPJEmpresa=" + CNPJEmpresa
+                + ", rua=" + rua + ", bairro=" + bairro + ", cidade=" + cidade + '}';
     }
 }
