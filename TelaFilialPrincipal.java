@@ -1,5 +1,7 @@
 package com.mycompany.gerenciamentoempresa;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
@@ -28,7 +30,7 @@ public class TelaFilialPrincipal extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTabelaFiliais = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -39,7 +41,7 @@ public class TelaFilialPrincipal extends javax.swing.JInternalFrame {
 
         setClosable(true);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaFiliais.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -55,9 +57,14 @@ public class TelaFilialPrincipal extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTabelaFiliais);
 
         jButton1.setText("Atualizar tabela");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Sair");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -67,8 +74,18 @@ public class TelaFilialPrincipal extends javax.swing.JInternalFrame {
         });
 
         jButton3.setText("Excluir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Editar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Cadastrar");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -137,6 +154,7 @@ public class TelaFilialPrincipal extends javax.swing.JInternalFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         TelaCadastroFilial telaCadFilial = new TelaCadastroFilial();
+
         TelaPrincipal.jDesktopPane1.add(telaCadFilial);
         telaCadFilial.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -144,6 +162,64 @@ public class TelaFilialPrincipal extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DefaultTableModel tabelaModelo = (DefaultTableModel) jTabelaFiliais.getModel();
+        tabelaModelo.setNumRows(0);
+        
+        FilialDAO filialBanco = new FilialDAO();
+        
+        for(Filial filial: filialBanco.listarFiliais()) {
+            tabelaModelo.addRow(new Object[]{
+                filial.getCodigo(),
+                filial.getCNPJEmpresa(),
+                filial.getNome(),
+                filial.getTipo(),
+                filial.getRua(),
+                filial.getBairro(),
+                filial.getCidade()
+            });
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       int linhaSelecionada = -1;
+        linhaSelecionada = jTabelaFiliais.getSelectedRow();
+        
+        if (linhaSelecionada >= 0) {
+            int codigoFilial = (int) jTabelaFiliais.getValueAt(linhaSelecionada, 0);
+            FilialDAO filialBanco = new FilialDAO();
+            filialBanco.deletarFilial(codigoFilial);
+            jButton1ActionPerformed(null);
+        } else {
+            JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int linhaSelecionada = -1;
+        linhaSelecionada = jTabelaFiliais.getSelectedRow();
+        
+        if (linhaSelecionada >= 0) {
+            int codigoFilial = (int) jTabelaFiliais.getValueAt(linhaSelecionada, 0);
+            String CNPJEmpresa = (String) jTabelaFiliais.getValueAt(linhaSelecionada, 1);
+            String nome = (String) jTabelaFiliais.getValueAt(linhaSelecionada, 2);
+            String tipo = (String) jTabelaFiliais.getValueAt(linhaSelecionada, 3);
+            String rua = (String) jTabelaFiliais.getValueAt(linhaSelecionada, 4);
+            String bairro = (String) jTabelaFiliais.getValueAt(linhaSelecionada, 5);
+            String cidade = (String) jTabelaFiliais.getValueAt(linhaSelecionada, 6);
+            
+            TelaCadastroFilial telaCadFilial = new TelaCadastroFilial(
+                    true,
+                    new Filial(codigoFilial, nome, tipo, CNPJEmpresa, rua, bairro, cidade)
+            );
+            TelaPrincipal.jDesktopPane1.add(telaCadFilial);
+            telaCadFilial.setVisible(true);
+            jButton1ActionPerformed(null);
+        } else {
+            JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -155,6 +231,6 @@ public class TelaFilialPrincipal extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTabelaFiliais;
     // End of variables declaration//GEN-END:variables
 }

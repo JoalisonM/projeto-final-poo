@@ -31,7 +31,7 @@ public class DepartamentoDAO {
         }
     }
     
-    public List<Departamento> listarProdutos() {
+    public List<Departamento> listarDepartamentos() {
         List<Departamento> listaRetorno = new LinkedList<>();
         
         ConnectionPostgreSQL postgres = new ConnectionPostgreSQL();
@@ -46,6 +46,7 @@ public class DepartamentoDAO {
             
             while (rs.next()) {
                 Departamento departamento = new Departamento();
+                departamento.setCodigo(rs.getInt("codigo"));
                 departamento.setNome(rs.getString("nome"));
                 departamento.setEmail(rs.getString("email"));
                 departamento.setCodigoFilial(rs.getInt("codigo_filial"));
@@ -75,7 +76,7 @@ public class DepartamentoDAO {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                Departamento departamento = new Departamento(rs.getString("idade"),rs.getString("email"),rs.getInt("codigo"),rs.getInt("codigo_filial"));
+                Departamento departamento = new Departamento(rs.getString("codigo"),rs.getString("email"),rs.getInt("codigo"),rs.getInt("codigo_filial"));
                 return departamento;
             }
         } catch (SQLException e) {
@@ -98,7 +99,6 @@ public class DepartamentoDAO {
             stmt.setString(2, departamento.getEmail());
             stmt.setInt(3, departamento.getCodigoFilial());
             stmt.setInt(4, departamento.getCodigo());
-
 
             stmt.executeUpdate();
             

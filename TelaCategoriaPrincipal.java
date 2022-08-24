@@ -191,9 +191,9 @@ public class TelaCategoriaPrincipal extends javax.swing.JInternalFrame {
        DefaultTableModel tabelaModelo = (DefaultTableModel) jTabelaCategorias.getModel();
        tabelaModelo.setNumRows(0);
        
-       CategoriaDAO categoriabanco = new CategoriaDAO();
+       CategoriaDAO categoriaBanco = new CategoriaDAO();
        
-       for (Categoria categoria: categoriabanco.listarCategorias()) {
+       for (Categoria categoria: categoriaBanco.listarCategorias()) {
            tabelaModelo.addRow(new Object[]{
                categoria.getCodigo(), 
                categoria.getNome()

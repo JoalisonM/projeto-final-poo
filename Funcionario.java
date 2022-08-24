@@ -4,12 +4,12 @@ public class Funcionario {
     private int idade, codigoDepartamento;
     private String CPF, nome, telefone, email, funcao;
     
-    public Funcionario() {};
+    public Funcionario() {}
 
-    public Funcionario(int idade, int codigoDepartamento, String CPF, String nome, String telefone, String email, String funcao) {
+    public Funcionario(String CPF, String nome, String telefone, String email, int idade, String funcao, int codigoDepartamento) {
+        this.CPF = CPF;
         this.idade = idade;
         this.codigoDepartamento = codigoDepartamento;
-        this.CPF = CPF;
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
