@@ -3,6 +3,8 @@ package com.mycompany.gerenciamentoempresa;
 public class Funcionario {
     private int idade, codigoDepartamento;
     private String CPF, nome, telefone, email, funcao;
+    
+    public Funcionario() {};
 
     public Funcionario(int idade, int codigoDepartamento, String CPF, String nome, String telefone, String email, String funcao) {
         this.idade = idade;

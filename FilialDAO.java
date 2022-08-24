@@ -52,7 +52,7 @@ public class FilialDAO {
                 Filial filial = new Filial();
                 filial.setNome(rs.getString("nome"));
                 filial.setTipo(rs.getString("tipo"));
-                filial.setCNPJEmpresa(rs.getString("CNPJEmpresa"));
+                filial.setCNPJEmpresa(rs.getString("CNPJ_empresa"));
                 filial.setRua(rs.getString("rua"));
                 filial.setBairro(rs.getString("bairro"));
                 filial.setCidade(rs.getString("Cidade"));
@@ -81,7 +81,7 @@ public class FilialDAO {
             rs = stmt.executeQuery();
 
             if (rs.next()) {
-                Filial filial = new Filial(rs.getString("nome"), rs.getString("CNPJEmpresa"), rs.getString("tipo"),
+                Filial filial = new Filial(rs.getInt("codigo"), rs.getString("nome"), rs.getString("CNPJ_empresa"), rs.getString("tipo"),
                         rs.getString("rua"), rs.getString("bairro"), rs.getString("cidade"));
                 return filial;
             }
@@ -101,7 +101,7 @@ public class FilialDAO {
         try {
             conexao = postgres.getConection();
             stmt = conexao.prepareStatement(
-                    "UPDATE filial SET nome=?,CNPJEmpresa=?,tipo=?,rua=?,bairro=?,cidade=? WHERE codigo=?");
+                    "UPDATE filial SET nome=?,CNPJ_empresa=?,tipo=?,rua=?,bairro=?,cidade=? WHERE codigo=?");
             stmt.setString(1, filial.getNome());
             stmt.setString(1, filial.getCNPJEmpresa());
             stmt.setString(1, filial.getTipo());
