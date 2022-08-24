@@ -5,6 +5,8 @@ public class Produto {
     private String nome, descricao;
     private int codigo, quantidade, codigoCategoria, codigoFilial;
     
+    public Produto() {};
+    
     public Produto(double valor, String nome, String descricao, int codigo, int quantidade, int codigoCategoria, int codigoFilial) {
         this.valor = valor;
         this.nome = nome;
