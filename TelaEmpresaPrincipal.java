@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
-
 package com.mycompany.gerenciamentoempresa;
 
-/**
- *
- * @author joalison
- */
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class TelaEmpresaPrincipal extends javax.swing.JInternalFrame {
 
     /** Creates new form TelaEmpresaPrincipal */
@@ -26,7 +20,7 @@ public class TelaEmpresaPrincipal extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTabelaEmpresas = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -37,7 +31,7 @@ public class TelaEmpresaPrincipal extends javax.swing.JInternalFrame {
 
         setClosable(true);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaEmpresas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -45,7 +39,7 @@ public class TelaEmpresaPrincipal extends javax.swing.JInternalFrame {
                 "CNPJ", "Nome"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(jTabelaEmpresas);
 
         jButton1.setText("Cadastrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -55,6 +49,11 @@ public class TelaEmpresaPrincipal extends javax.swing.JInternalFrame {
         });
 
         jButton2.setText("Editar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Excluir");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -136,22 +135,63 @@ public class TelaEmpresaPrincipal extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        int linhaSelecionada = -1;
+        linhaSelecionada = jTabelaEmpresas.getSelectedRow();
+        
+        if (linhaSelecionada >= 0) {
+            String cnpjEmpresa = (String) jTabelaEmpresas.getValueAt(linhaSelecionada, 0);
+            EmpresaDAO empresaBanco = new EmpresaDAO();
+            empresaBanco.deletarEmpresa(cnpjEmpresa);
+            jButton5ActionPerformed(null);
+        } else {
+            JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         TelaCadastroEmpresa telaCadEmpresa = new TelaCadastroEmpresa();
+
         TelaPrincipal.jDesktopPane1.add(telaCadEmpresa);
         telaCadEmpresa.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel tabelaModelo = (DefaultTableModel) jTabelaEmpresas.getModel();
+        tabelaModelo.setNumRows(0);
+        
+        EmpresaDAO empresaBanco = new EmpresaDAO();
+        
+        for(Empresa empresa: empresaBanco.listarEmpresas()) {
+            tabelaModelo.addRow(new Object[]{
+                empresa.getCNPJ(),
+                empresa.getNome()
+            });
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int linhaSelecionada = -1;
+        linhaSelecionada = jTabelaEmpresas.getSelectedRow();
+        
+        if(linhaSelecionada >= 0) {
+            String cnpj = (String) jTabelaEmpresas.getValueAt(linhaSelecionada, 0);
+            String nome = (String) jTabelaEmpresas.getValueAt(linhaSelecionada, 1);
+            
+            TelaCadastroEmpresa telaCadEmpresa = new TelaCadastroEmpresa(
+                    true,
+                    new Empresa(nome, cnpj)
+            );
+            TelaPrincipal.jDesktopPane1.add(telaCadEmpresa);
+            telaCadEmpresa.setVisible(true);
+            jButton5ActionPerformed(null);
+        } else {
+            JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -163,7 +203,7 @@ public class TelaEmpresaPrincipal extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTabelaEmpresas;
     // End of variables declaration//GEN-END:variables
 
 }

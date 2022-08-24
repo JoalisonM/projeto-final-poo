@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
-
 package com.mycompany.gerenciamentoempresa;
 
-/**
- *
- * @author joalison
- */
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class TelaProdutoPrincipal extends javax.swing.JInternalFrame {
 
     /** Creates new form TelaProdutoPrincipal */
@@ -26,7 +20,7 @@ public class TelaProdutoPrincipal extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTabelaProdutos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -35,7 +29,7 @@ public class TelaProdutoPrincipal extends javax.swing.JInternalFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTabelaProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -51,12 +45,17 @@ public class TelaProdutoPrincipal extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTabelaProdutos);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel1.setText("Produto");
 
         jButton1.setText("Atualizar tabela");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Sair");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -66,10 +65,25 @@ public class TelaProdutoPrincipal extends javax.swing.JInternalFrame {
         });
 
         jButton3.setText("Excluir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Editar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Cadastrar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -129,6 +143,71 @@ public class TelaProdutoPrincipal extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DefaultTableModel tabelaModelo = (DefaultTableModel) jTabelaProdutos.getModel();
+        tabelaModelo.setNumRows(0);
+        
+        ProdutoDAO produtoBanco = new ProdutoDAO();
+        
+        for(Produto produto: produtoBanco.listarProdutos()){
+            tabelaModelo.addRow(new Object[]{
+                produto.getCodigo(),
+                produto.getCodigoCategoria(),
+                produto.getCodigoFilial(),
+                produto.getNome(),
+                produto.getValor(),
+                produto.getQuantidade(),
+                produto.getDescricao()
+            });
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        TelaCadastroProduto telaCadProduto = new TelaCadastroProduto();
+        
+        TelaPrincipal.jDesktopPane1.add(telaCadProduto);
+        telaCadProduto.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int linhaSelecionada = -1;
+        linhaSelecionada = jTabelaProdutos.getSelectedRow();
+        
+        if (linhaSelecionada >= 0) {
+            int codigo = (int) jTabelaProdutos.getValueAt(linhaSelecionada, 0);
+            int codigoCategoria = (int) jTabelaProdutos.getValueAt(linhaSelecionada, 1);
+            int codigoFilial = (int) jTabelaProdutos.getValueAt(linhaSelecionada, 2);
+            String nome = (String) jTabelaProdutos.getValueAt(linhaSelecionada, 3);
+            double valor = (double) jTabelaProdutos.getValueAt(linhaSelecionada, 4);
+            int quantidade = (int) jTabelaProdutos.getValueAt(linhaSelecionada, 5);
+            String descricao = (String) jTabelaProdutos.getValueAt(linhaSelecionada, 6);
+            
+            TelaCadastroProduto telaCadProduto = new TelaCadastroProduto(
+                    true,
+                    new Produto(valor, nome, descricao, codigo, quantidade, codigoCategoria, codigoFilial)
+            );
+            TelaPrincipal.jDesktopPane1.add(telaCadProduto);
+            telaCadProduto.setVisible(true);
+            jButton1ActionPerformed(null);
+        } else {
+            JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        int linhaSelecionada = -1;
+        linhaSelecionada = jTabelaProdutos.getSelectedRow();
+        
+        if (linhaSelecionada >= 0) {
+            int codigoProduto = (int) jTabelaProdutos.getValueAt(linhaSelecionada, 0);
+            ProdutoDAO produtoBanco = new ProdutoDAO();
+            produtoBanco.deletarProduto(codigoProduto);
+            jButton1ActionPerformed(null);
+        } else {
+            JOptionPane.showMessageDialog(null, "É necesário selecionar uma linha.");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -139,7 +218,7 @@ public class TelaProdutoPrincipal extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTabelaProdutos;
     // End of variables declaration//GEN-END:variables
 
 }
